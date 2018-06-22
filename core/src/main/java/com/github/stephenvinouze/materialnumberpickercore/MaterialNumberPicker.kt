@@ -22,6 +22,7 @@ class MaterialNumberPicker : NumberPicker {
         private const val DEFAULT_TEXT_COLOR = Color.BLACK
         private const val DEFAULT_TEXT_SIZE = 40
         private const val DEFAULT_TEXT_STYLE = Typeface.NORMAL
+        private const val DEFAULT_TEXT_ALIGN = 0
         private const val DEFAULT_EDITABLE = false
         private const val DEFAULT_WRAPPED = false
     }
@@ -39,6 +40,12 @@ class MaterialNumberPicker : NumberPicker {
         }
 
     var textStyle: Int = DEFAULT_TEXT_STYLE
+        set(value) {
+            field = value
+            updateTextAttributes()
+        }
+
+    var textAlign: Int = DEFAULT_TEXT_ALIGN
         set(value) {
             field = value
             updateTextAttributes()
@@ -115,6 +122,7 @@ class MaterialNumberPicker : NumberPicker {
         this.textColor = textColor
         this.textSize = textSize
         this.textStyle = textStyle
+        this.textAlign = textAlign
         this.fontName = fontName
         this.editable = editable
         this.wrapSelectorWheel = wrapped
@@ -133,6 +141,7 @@ class MaterialNumberPicker : NumberPicker {
         textColor = a.getColor(R.styleable.MaterialNumberPicker_mnpTextColor, DEFAULT_TEXT_COLOR)
         textSize = a.getDimensionPixelSize(R.styleable.MaterialNumberPicker_mnpTextSize, DEFAULT_TEXT_SIZE)
         textStyle = a.getInt(R.styleable.MaterialNumberPicker_mnpTextColor, DEFAULT_TEXT_STYLE)
+        textAlign = a.getInt(R.styleable.MaterialNumberPicker_mnpTextAlign, DEFAULT_TEXT_ALIGN)
         editable = a.getBoolean(R.styleable.MaterialNumberPicker_mnpEditable, DEFAULT_EDITABLE)
         wrapSelectorWheel = a.getBoolean(R.styleable.MaterialNumberPicker_mnpWrapped, DEFAULT_WRAPPED)
         fontName = a.getString(R.styleable.MaterialNumberPicker_mnpFontname)
@@ -156,10 +165,12 @@ class MaterialNumberPicker : NumberPicker {
      */
     private fun updateTextAttributes() {
         val typeface = if (fontName != null) Typeface.createFromAsset(context.assets, "fonts/$fontName") else Typeface.create(Typeface.DEFAULT, textStyle)
+        val alignment = if (textAlign == 1) Paint.Align.LEFT else if (textAlign == 2) Paint.Align.RIGHT else Paint.Align.CENTER
         wheelPaint?.let {
             it.color = textColor
             it.textSize = textSize.toFloat()
             it.typeface = typeface
+            it.textAlign = alignment
 
             val childEditText = (0 until childCount).map { getChildAt(it) as? EditText }.firstOrNull()
             childEditText?.let {

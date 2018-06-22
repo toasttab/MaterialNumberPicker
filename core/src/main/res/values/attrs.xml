@@ -14,6 +14,11 @@
             <flag name="italic" value="2" />
             <flag name="bold_italic" value="3" />
         </attr>
+        <attr name="mnpTextAlign">
+            <flag name="center" value="0" />
+            <flag name="left" value="1" />
+            <flag name="right" value="2" />
+        </attr>
         <attr name="mnpEditable" format="boolean" />
         <attr name="mnpWrapped" format="boolean" />
         <attr name="mnpFontname" format="string" />

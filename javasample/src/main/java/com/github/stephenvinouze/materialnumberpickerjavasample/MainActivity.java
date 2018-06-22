@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ContextCompat.getColor(this, R.color.colorPrimary),
                     getResources().getDimensionPixelSize(R.dimen.numberpicker_textsize),
                     Typeface.BOLD_ITALIC,
+                    2,
                     false,
                     false,
                     "Hand.ttf",

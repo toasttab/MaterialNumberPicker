@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.text.InputType
 import android.util.AttributeSet
 import android.util.TypedValue
+import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.NumberPicker
@@ -22,7 +23,7 @@ class MaterialNumberPicker : NumberPicker {
         private const val DEFAULT_TEXT_COLOR = Color.BLACK
         private const val DEFAULT_TEXT_SIZE = 40
         private const val DEFAULT_TEXT_STYLE = Typeface.NORMAL
-        private const val DEFAULT_TEXT_ALIGN = 0
+        private const val DEFAULT_TEXT_ALIGN = 1
         private const val DEFAULT_EDITABLE = false
         private const val DEFAULT_WRAPPED = false
     }
@@ -110,6 +111,7 @@ class MaterialNumberPicker : NumberPicker {
                 textColor: Int = DEFAULT_TEXT_COLOR,
                 textSize: Int = DEFAULT_TEXT_SIZE,
                 textStyle: Int = DEFAULT_TEXT_STYLE,
+                textAlign: Int = DEFAULT_TEXT_ALIGN,
                 editable: Boolean = DEFAULT_EDITABLE,
                 wrapped: Boolean = DEFAULT_WRAPPED,
                 fontName: String? = null,
@@ -164,13 +166,15 @@ class MaterialNumberPicker : NumberPicker {
      * Uses reflection to access text size private attribute for both wheel and edit text inside the number picker.
      */
     private fun updateTextAttributes() {
+
         val typeface = if (fontName != null) Typeface.createFromAsset(context.assets, "fonts/$fontName") else Typeface.create(Typeface.DEFAULT, textStyle)
         val alignment = if (textAlign == 1) Paint.Align.LEFT else if (textAlign == 2) Paint.Align.RIGHT else Paint.Align.CENTER
         wheelPaint?.let {
-            it.color = textColor
+//            it.color = textColor
             it.textSize = textSize.toFloat()
+            it.textAlign = Paint.Align.LEFT
             it.typeface = typeface
-            it.textAlign = alignment
+
 
             val childEditText = (0 until childCount).map { getChildAt(it) as? EditText }.firstOrNull()
             childEditText?.let {
@@ -178,10 +182,11 @@ class MaterialNumberPicker : NumberPicker {
                 it.setTextSize(TypedValue.COMPLEX_UNIT_SP, pixelsToSp(context, textSize.toFloat()))
                 it.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_NORMAL
                 it.typeface = typeface
-
+                it.gravity = Gravity.LEFT
                 invalidate()
             }
         }
+        wheelPaint?.textAlign = Paint.Align.LEFT
     }
 
     private fun pixelsToSp(context: Context, px: Float): Float =

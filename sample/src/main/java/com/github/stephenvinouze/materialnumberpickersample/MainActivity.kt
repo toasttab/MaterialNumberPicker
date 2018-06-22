@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
                     textColor = ContextCompat.getColor(this, R.color.colorPrimary),
                     textSize = resources.getDimensionPixelSize(R.dimen.numberpicker_textsize),
                     textStyle = Typeface.BOLD_ITALIC,
+                    textAlign = 1,
                     editable = false,
                     wrapped = false,
                     fontName = "Hand.ttf",
